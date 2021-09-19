@@ -26,7 +26,8 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
                 break;
             case MULTIPLICATION:
                 lineStream >> word;
-                lineStream >> word2;
+                getline(lineStream,word2);
+                word2.erase(0,1);
                 if(isBool(word2)){
                     varHolder[word].multiplication(Var(word2 == "true"));
                 }else if (isName(word2)){
@@ -41,7 +42,8 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
                 break;
             case DEVIATION:
                 lineStream >> word;
-                lineStream >> word2;
+                getline(lineStream,word2);
+                word2.erase(0,1);
                 if(isBool(word2)){
                     varHolder[word].deviation(Var(word2 == "true"));
                 }else if (isName(word2)){
@@ -72,7 +74,8 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
                 break;
             case MINUS:
                 lineStream >> word;
-                lineStream >> word2;
+                getline(lineStream,word2);
+                word2.erase(0,1);
                 if(isBool(word2)){
                     varHolder[word].minus(Var(word2 == "true"));
                 }else if (isName(word2)){
@@ -103,7 +106,8 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
                 break;
             case NOT_EQUAL:
                 lineStream >> word;
-                lineStream >> word2;
+                getline(lineStream,word2);
+                word2.erase(0,1);
                 if(isBool(word2)){
                     varHolder[word].notEqual(Var(word2 == "true"));
                 }else if (isName(word2)){
@@ -118,7 +122,8 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
                 break;
             case MOVE:
                 lineStream >> word;
-                lineStream >> word2;
+                getline(lineStream,word2);
+                word2.erase(0,1);
                 if(isBool(word2)){
                     varHolder[word].move(Var(word2 == "true"));
                 }else if (isName(word2)){
