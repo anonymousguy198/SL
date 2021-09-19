@@ -23,8 +23,7 @@ namespace SL {
                         Node{"-",Node::OPERATOR,Node::OP_RIGHT}
                 },{
                         Node{"*",Node::OPERATOR,Node::OP_BOTH},
-                        Node{"/",Node::OPERATOR,Node::OP_BOTH},
-                        Node{"%",Node::OPERATOR,Node::OP_BOTH}
+                        Node{"/",Node::OPERATOR,Node::OP_BOTH}
                 },{
                         Node{"+",Node::OPERATOR,Node::OP_BOTH},
                         Node{"-",Node::OPERATOR,Node::OP_BOTH}

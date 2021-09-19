@@ -10,7 +10,6 @@ const Node CodeGenerator::OP_POSITIVE = Node{"+", Node::OPERATOR, Node::OP_RIGHT
 const Node CodeGenerator::OP_NEGATIVE = Node{"-", Node::OPERATOR, Node::OP_RIGHT};
 const Node CodeGenerator::OP_MULTIPLICATION = Node{"*", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_DEVIATION = Node{"/", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::OP_REMAINING = Node{"%", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_PLUS = Node{"+", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_MINUS = Node{"-", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_ASSIGN = Node{"=", Node::OPERATOR, Node::OP_BOTH};
@@ -33,8 +32,6 @@ void CodeGenerator::generateByteCode(Node &node) {
             generateByteCode(node,MULTIPLICATION);
         }else if(node == OP_DEVIATION){
             generateByteCode(node,DEVIATION);
-        }else if(node == OP_REMAINING){
-            generateByteCode(node,REMAINING);
         }else if(node == OP_PLUS){
             generateByteCode(node,PLUS);
         }else if(node == OP_MINUS){

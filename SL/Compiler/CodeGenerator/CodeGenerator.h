@@ -23,7 +23,6 @@ namespace SL {
 
         static const Node OP_MULTIPLICATION;
         static const Node OP_DEVIATION;
-        static const Node OP_REMAINING;
 
         static const Node OP_PLUS;
         static const Node OP_MINUS;

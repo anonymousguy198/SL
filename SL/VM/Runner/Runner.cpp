@@ -9,9 +9,10 @@ using namespace SL;
 
 Runner::Runner(const CodeGenerator& code) : varHolder({}) {
     Command command;
+    std::string word;
     for(const auto& line : code.codeHolder){
         std::istringstream lineStream(line);
-        std::string word,word2;
+        std::string word2;
         lineStream >> word;
         command = (Command)stoi(word);
         switch (command) {
@@ -53,21 +54,6 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
                     throw std::runtime_error("DEVIATION");
                 }
                 break;
-            case REMAINING:
-                lineStream >> word;
-                lineStream >> word2;
-                if (isName(word2)){
-                    varHolder[word].remaining(varHolder[word2]);
-                }else if(isNumber(word2)){
-                    varHolder[word].remaining(Var(std::stold(word2)));
-                }else if(isString(word2)){
-                    varHolder[word].remaining(Var(word2));
-                }else if(isBool(word2)){
-                    varHolder[word].remaining(Var(word2 == "true"));
-                }else{
-                    throw std::runtime_error("REMAINING");
-                }
-                break;
             case PLUS:
                 lineStream >> word;
                 std::getline(lineStream,word2);
@@ -102,14 +88,14 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
             case MOVE:
                 lineStream >> word;
                 lineStream >> word2;
-                if (isName(word2)){
+                if(isBool(word2)){
+                    varHolder[word].move(Var(word2 == "true"));
+                }else if (isName(word2)){
                     varHolder[word].move(varHolder[word2]);
                 }else if(isNumber(word2)){
                     varHolder[word].move(Var(std::stold(word2)));
                 }else if(isString(word2)){
                     varHolder[word].move(Var(word2));
-                }else if(isBool(word2)){
-                    varHolder[word].move(Var(word2 == "true"));
                 }else{
                     throw std::runtime_error("MOVE");
                 }
@@ -122,6 +108,8 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
                 lineStream >> word;
                 varHolder[word].print();
                 break;
+            default:
+                throw std::runtime_error("Runner::Runner");
         }
     }
 }
@@ -139,5 +127,5 @@ bool Runner::isString(const std::string &str) {
 }
 
 bool Runner::isBool(const std::string &str) {
-    return str == "true" || str == "false";
+    return isBoolean(str);
 }

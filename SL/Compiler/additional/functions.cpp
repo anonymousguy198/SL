@@ -2,8 +2,8 @@
 // Created by a404m on 9/19/21.
 //
 
-#include "functions.h"
 
+#include "functions.h"
 namespace SL{
     extern bool isSpace(char c){
         return isspace(c);
@@ -28,14 +28,17 @@ namespace SL{
 
         return false;
     }
+    extern bool isBoolean(const std::string &str){
+        return str == "true" || str == "false";
+    }
     extern bool isSymbol(char c){
         return c == ';';
     }
     extern bool isOperator(char c){
-        return c == '+' || c == '-' || c == '/' || c == '*' || c == '%' || c == '=';
+        return c == '+' || c == '-' || c == '/' || c == '*' || c == '=';
     }
     extern bool isOperator(const std::string &str){
-        static std::string operators[] = {"+","-","/","*","%"};
+        static std::string operators[] = {"+","-","/","*","="};
         for(const auto &item : operators)
             if(str == item)
                 return true;

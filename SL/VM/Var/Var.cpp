@@ -50,10 +50,6 @@ void Var::deviation(const Var &var) {
     }
 }
 
-void Var::remaining(const Var &var) {
-    throw std::runtime_error("Unknown Operator %");//todo implement it
-}
-
 void Var::plus(const Var &var) {
     if(type == var.type){
         if(type == NUMBER){

@@ -36,7 +36,6 @@ namespace SL {
 
         void multiplication(const Var&);
         void deviation(const Var&);
-        void remaining(const Var&);
 
         void plus(const Var&);
         void minus(const Var&);

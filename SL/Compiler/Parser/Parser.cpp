@@ -160,6 +160,7 @@ bool Parser::isOperand(const Node &node) {
     switch (node.token) {
         case Node::STRING:
         case Node::NUMBER:
+        case Node::BOOL:
         case Node::ID:
             return true;
         case Node::BLOCK:

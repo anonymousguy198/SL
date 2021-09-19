@@ -15,6 +15,7 @@ namespace SL {
     extern bool isBlock(char);
     extern bool isIdentifier(char);//ID
     extern bool isKeyword(const std::string &);
+    extern bool isBoolean(const std::string &);
     extern bool isSymbol(char);
     extern bool isOperator(char);
     extern bool isOperator(const std::string &);

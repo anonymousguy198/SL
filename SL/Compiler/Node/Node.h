@@ -16,6 +16,7 @@ namespace SL {
             NONE = 0,
             STRING,
             NUMBER,
+            BOOL,
             BLOCK,//{} () ...
             OPERATOR,
             KEYWORD,

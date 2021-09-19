@@ -11,7 +11,6 @@ namespace SL {
         NEGATIVE,
         MULTIPLICATION,
         DEVIATION,
-        REMAINING,
         PLUS,
         MINUS,
         MOVE,

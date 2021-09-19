@@ -3,9 +3,10 @@
 
 using namespace std;
 
-int main() {//todo implement bool
+int main() {
     std::string codeString = R"(
-print 0.1+1;
+a = true;
+print a;
 )";
     auto start = chrono::high_resolution_clock::now();
     auto test = SL::Runner{SL::CodeGenerator{SL::Parser{SL::Lexer{codeString}}}};

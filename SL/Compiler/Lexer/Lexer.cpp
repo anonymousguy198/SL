@@ -71,8 +71,12 @@ void Lexer::clear() {
 }
 
 void Lexer::push_clear(Node &node) {
-    if(node.token == Node::ID && isKeyword(node.str))
-        node.token = Node::KEYWORD;
+    if(node.token == Node::ID) {
+        if (isKeyword(node.str))
+            node.token = Node::KEYWORD;
+        else if (isBoolean(node.str))
+            node.token = Node::BOOL;
+    }
     holder.push_back(node);
     node.clear();
 }
