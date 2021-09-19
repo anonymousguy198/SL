@@ -28,6 +28,9 @@ namespace SL {
                         Node{"+",Node::OPERATOR,Node::OP_BOTH},
                         Node{"-",Node::OPERATOR,Node::OP_BOTH}
                 },{
+                        Node{"==",Node::OPERATOR,Node::OP_BOTH},
+                        Node{"!=",Node::OPERATOR,Node::OP_BOTH}
+                },{
                         Node{"=",Node::OPERATOR,Node::OP_BOTH}
                 },{
                         Node{"print",Node::KEYWORD,Node::OP_RIGHT}

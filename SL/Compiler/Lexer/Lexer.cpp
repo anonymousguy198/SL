@@ -41,7 +41,7 @@ Lexer::Lexer(std::string str) : holder({}) {
             }
         }
         else if(isOperator(current)){
-            if(node.token != Node::OPERATOR || isOperator(node.str)){
+            if(node.token != Node::OPERATOR || !isOperator(node.str+*it)){
                 if(node.str+current == "//"){
                     for(;it < end && *it != '\n';++it);
                     node.clear();

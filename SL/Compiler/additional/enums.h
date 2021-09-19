@@ -13,6 +13,8 @@ namespace SL {
         DEVIATION,
         PLUS,
         MINUS,
+        EQUAL,
+        NOT_EQUAL,
         MOVE,
         DELETE,
         PRINT

@@ -40,6 +40,9 @@ namespace SL {
         void plus(const Var&);
         void minus(const Var&);
 
+        void equal(const Var&);
+        void notEqual(const Var&);
+
         void move(const Var&);
 
         void print();

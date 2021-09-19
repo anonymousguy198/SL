@@ -27,6 +27,9 @@ namespace SL {
         static const Node OP_PLUS;
         static const Node OP_MINUS;
 
+        static const Node OP_EQUAL;
+        static const Node OP_NOT_EQUAL;
+
         static const Node OP_ASSIGN;
 
         static const Node KW_PRINT;

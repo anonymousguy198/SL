@@ -72,6 +72,14 @@ void Var::minus(const Var &var) {
     }
 }
 
+void Var::equal(const Var &var) {
+    *this = Var(type == var.type && holder == var.holder);
+}
+
+void Var::notEqual(const Var &var) {
+    *this = Var(type != var.type || holder != var.holder);
+}
+
 void Var::move(const Var &var) {
     holder = var.holder;
     type = var.type;

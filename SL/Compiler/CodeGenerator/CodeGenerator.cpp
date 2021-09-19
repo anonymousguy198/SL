@@ -12,6 +12,8 @@ const Node CodeGenerator::OP_MULTIPLICATION = Node{"*", Node::OPERATOR, Node::OP
 const Node CodeGenerator::OP_DEVIATION = Node{"/", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_PLUS = Node{"+", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_MINUS = Node{"-", Node::OPERATOR, Node::OP_BOTH};
+const Node CodeGenerator::OP_EQUAL = Node{"==", Node::OPERATOR, Node::OP_BOTH};
+const Node CodeGenerator::OP_NOT_EQUAL = Node{"!=", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_ASSIGN = Node{"=", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::KW_PRINT = Node{"print", Node::KEYWORD, Node::OP_RIGHT};
 
@@ -36,6 +38,10 @@ void CodeGenerator::generateByteCode(Node &node) {
             generateByteCode(node,PLUS);
         }else if(node == OP_MINUS){
             generateByteCode(node,MINUS);
+        }else if(node == OP_EQUAL){
+            generateByteCode(node,EQUAL);
+        }else if(node == OP_NOT_EQUAL){
+            generateByteCode(node,NOT_EQUAL);
         }else if(node == OP_ASSIGN){
             std::string line;
             if(node.operands[0].operands.empty() && node.operands[0].token == Node::ID) {

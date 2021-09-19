@@ -27,14 +27,14 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
             case MULTIPLICATION:
                 lineStream >> word;
                 lineStream >> word2;
-                if (isName(word2)){
+                if(isBool(word2)){
+                    varHolder[word].multiplication(Var(word2 == "true"));
+                }else if (isName(word2)){
                     varHolder[word].multiplication(varHolder[word2]);
                 }else if(isNumber(word2)){
                     varHolder[word].multiplication(Var(std::stold(word2)));
                 }else if(isString(word2)){
                     varHolder[word].multiplication(Var(word2));
-                }else if(isBool(word2)){
-                    varHolder[word].multiplication(Var(word2 == "true"));
                 }else{
                     throw std::runtime_error("MULTIPLICATION");
                 }
@@ -42,14 +42,14 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
             case DEVIATION:
                 lineStream >> word;
                 lineStream >> word2;
-                if (isName(word2)){
+                if(isBool(word2)){
+                    varHolder[word].deviation(Var(word2 == "true"));
+                }else if (isName(word2)){
                     varHolder[word].deviation(varHolder[word2]);
                 }else if(isNumber(word2)){
                     varHolder[word].deviation(Var(std::stold(word2)));
                 }else if(isString(word2)){
                     varHolder[word].deviation(Var(word2));
-                }else if(isBool(word2)){
-                    varHolder[word].deviation(Var(word2 == "true"));
                 }else{
                     throw std::runtime_error("DEVIATION");
                 }
@@ -58,14 +58,14 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
                 lineStream >> word;
                 std::getline(lineStream,word2);
                 word2.erase(0,1);
-                if (isName(word2)){
+                if(isBool(word2)){
+                    varHolder[word].plus(Var(word2 == "true"));
+                }else if (isName(word2)){
                     varHolder[word].plus(varHolder[word2]);
                 }else if(isNumber(word2)){
                     varHolder[word].plus(Var(std::stold(word2)));
                 }else if(isString(word2)){
                     varHolder[word].plus(Var(word2));
-                }else if(isBool(word2)){
-                    varHolder[word].plus(Var(word2 == "true"));
                 }else{
                     throw std::runtime_error("PLUS");
                 }
@@ -73,16 +73,47 @@ Runner::Runner(const CodeGenerator& code) : varHolder({}) {
             case MINUS:
                 lineStream >> word;
                 lineStream >> word2;
-                if (isName(word2)){
+                if(isBool(word2)){
+                    varHolder[word].minus(Var(word2 == "true"));
+                }else if (isName(word2)){
                     varHolder[word].minus(varHolder[word2]);
                 }else if(isNumber(word2)){
                     varHolder[word].minus(Var(std::stold(word2)));
                 }else if(isString(word2)){
                     varHolder[word].minus(Var(word2));
-                }else if(isBool(word2)){
-                    varHolder[word].minus(Var(word2 == "true"));
                 }else{
                     throw std::runtime_error("MINUS");
+                }
+                break;
+            case EQUAL:
+                lineStream >> word;
+                std::getline(lineStream,word2);
+                word2.erase(0,1);
+                if(isBool(word2)){
+                    varHolder[word].equal(Var(word2 == "true"));
+                }else if (isName(word2)){
+                    varHolder[word].equal(varHolder[word2]);
+                }else if(isNumber(word2)){
+                    varHolder[word].equal(Var(std::stold(word2)));
+                }else if(isString(word2)){
+                    varHolder[word].equal(Var(word2));
+                }else{
+                    throw std::runtime_error("EQUAL");
+                }
+                break;
+            case NOT_EQUAL:
+                lineStream >> word;
+                lineStream >> word2;
+                if(isBool(word2)){
+                    varHolder[word].notEqual(Var(word2 == "true"));
+                }else if (isName(word2)){
+                    varHolder[word].notEqual(varHolder[word2]);
+                }else if(isNumber(word2)){
+                    varHolder[word].notEqual(Var(std::stold(word2)));
+                }else if(isString(word2)){
+                    varHolder[word].notEqual(Var(word2));
+                }else{
+                    throw std::runtime_error("NOT_EQUAL");
                 }
                 break;
             case MOVE:

@@ -5,8 +5,8 @@ using namespace std;
 
 int main() {
     std::string codeString = R"(
-a = true;
-print a;
+a = b = 12;
+print a == b;
 )";
     auto start = chrono::high_resolution_clock::now();
     auto test = SL::Runner{SL::CodeGenerator{SL::Parser{SL::Lexer{codeString}}}};
