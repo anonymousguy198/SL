@@ -87,9 +87,8 @@ void Var::move(const Var &var) {
 
 void Var::print() {
     switch (type) {
-        case STRING: {
+        case STRING:
             std::cout << std::get<String>(holder);
-        }
             break;
         case NUMBER:
             std::cout << std::get<Number>(holder);
