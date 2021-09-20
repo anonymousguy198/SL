@@ -1,6 +1,9 @@
 #include "SL/VM/Runner/Runner.h"
 #include <chrono>
 //#include <fstream>
+#include <sstream>
+
+extern std::ostringstream ss;
 
 using namespace std;
 
@@ -41,6 +44,7 @@ int main(/*int argc,char* argv[]*/) {
     auto d = SL::Runner{c};
     diff = chrono::high_resolution_clock::now()-start;
     total += chrono::duration<double,milli>(diff).count();
+    cout << ss.str();
     cout << "\n------------Program End------------" << endl;
     cout << "Runner: " << chrono::duration<double,milli>(diff).count() << "ms" << endl;
     cout << "Total: " << total << "ms" << endl;
