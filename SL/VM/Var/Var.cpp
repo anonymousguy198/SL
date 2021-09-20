@@ -88,11 +88,7 @@ void Var::move(const Var &var) {
 void Var::print() {
     switch (type) {
         case STRING: {
-            auto &str = std::get<String>(holder);
-            for(auto it = str.begin(),end = str.end();it < end;++it){
-                auto& current = *it;
-
-            }
+            std::cout << std::get<String>(holder);
         }
             break;
         case NUMBER:

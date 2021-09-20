@@ -18,7 +18,7 @@ int main(/*int argc,char* argv[]*/) {
     }
     cout << codeString << endl;*/
 
-    string codeString = "print 3*15+2000/3;";
+    string codeString = "print 'Hello \n World!';";
 
     double total = 0;
     auto start = chrono::high_resolution_clock::now();

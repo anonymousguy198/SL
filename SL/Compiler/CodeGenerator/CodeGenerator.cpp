@@ -209,8 +209,8 @@ void CodeGenerator::setCodeName(const std::string &str) {
 }
 
 void CodeGenerator::setString(const std::string &str) {
-    holder += std::to_string(str.size()-2);
-    holder += str.substr(1,str.size()-2);
+    holder += str.size();
+    holder += str;
 }
 
 void CodeGenerator::setNumber(const std::string &str) {

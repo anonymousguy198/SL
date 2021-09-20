@@ -37,7 +37,7 @@ Lexer::Lexer(std::string str) : holder({}) {
                 }
                 continue;
             }else if(node.str[0] == current){
-                node.str += current;
+                node.str.erase(0,1);
                 push_clear(node);
                 continue;
             }
