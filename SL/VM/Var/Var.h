@@ -38,6 +38,11 @@ namespace SL {
         void plus(const Var&);
         void minus(const Var&);
 
+        void greater(const Var&);
+        void smaller(const Var&);
+        void greaterOrEqual(const Var&);
+        void smallerOrEqual(const Var&);
+
         void equal(const Var&);
         void notEqual(const Var&);
 

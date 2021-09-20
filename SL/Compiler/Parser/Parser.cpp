@@ -19,6 +19,11 @@ const std::vector<std::vector<Node>> orders{
                 Node{"+",Node::OPERATOR,Node::OP_BOTH},
                 Node{"-",Node::OPERATOR,Node::OP_BOTH}
         },{
+                Node{">",Node::OPERATOR,Node::OP_BOTH},
+                Node{"<",Node::OPERATOR,Node::OP_BOTH},
+                Node{">=",Node::OPERATOR,Node::OP_BOTH},
+                Node{"<=",Node::OPERATOR,Node::OP_BOTH}
+        },{
                 Node{"==",Node::OPERATOR,Node::OP_BOTH},
                 Node{"!=",Node::OPERATOR,Node::OP_BOTH}
         },{

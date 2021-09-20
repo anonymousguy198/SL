@@ -11,6 +11,10 @@ const Node CodeGenerator::OP_NEGATIVE = Node{"-", Node::OPERATOR, Node::OP_RIGHT
 const Node CodeGenerator::OP_MULTIPLICATION = Node{"*", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_DEVIATION = Node{"/", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_PLUS = Node{"+", Node::OPERATOR, Node::OP_BOTH};
+const Node CodeGenerator::OP_GREATER = Node{">",Node::OPERATOR,Node::OP_BOTH};
+const Node CodeGenerator::OP_SMALLER = Node{"<",Node::OPERATOR,Node::OP_BOTH};
+const Node CodeGenerator::OP_GREATER_OR_EQUAL = Node{">=",Node::OPERATOR,Node::OP_BOTH};
+const Node CodeGenerator::OP_SMALLER_OR_EQUAL = Node{"<=",Node::OPERATOR,Node::OP_BOTH};
 const Node CodeGenerator::OP_MINUS = Node{"-", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_EQUAL = Node{"==", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_NOT_EQUAL = Node{"!=", Node::OPERATOR, Node::OP_BOTH};
@@ -38,6 +42,14 @@ void CodeGenerator::generateByteCode(Node &node) {
             generateByteCode(node,PLUS);
         }else if(node == OP_MINUS){
             generateByteCode(node,MINUS);
+        }else if(node == OP_GREATER_OR_EQUAL){
+            generateByteCode(node,GREATER_OR_EQUAL);
+        }else if(node == OP_SMALLER_OR_EQUAL){
+            generateByteCode(node,SMALLER_OR_EQUAL);
+        }else if(node == OP_GREATER){
+            generateByteCode(node,GREATER);
+        }else if(node == OP_SMALLER){
+            generateByteCode(node,SMALLER);
         }else if(node == OP_EQUAL){
             generateByteCode(node,EQUAL);
         }else if(node == OP_NOT_EQUAL){

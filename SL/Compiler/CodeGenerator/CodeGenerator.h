@@ -25,6 +25,11 @@ namespace SL {
         static const Node OP_PLUS;
         static const Node OP_MINUS;
 
+        static const Node OP_GREATER;
+        static const Node OP_SMALLER;
+        static const Node OP_GREATER_OR_EQUAL;
+        static const Node OP_SMALLER_OR_EQUAL;
+
         static const Node OP_EQUAL;
         static const Node OP_NOT_EQUAL;
 

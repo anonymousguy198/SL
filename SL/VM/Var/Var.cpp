@@ -103,3 +103,31 @@ void Var::print() {
             throw std::runtime_error("Var::print");
     }
 }
+
+void Var::greater(const Var &var) {
+    if(type == var.type)
+        *this = Var(holder > var.holder);
+    else
+        throw std::runtime_error("");
+}
+
+void Var::smaller(const Var &var) {
+    if(type == var.type)
+        *this = Var(holder < var.holder);
+    else
+        throw std::runtime_error("");
+}
+
+void Var::greaterOrEqual(const Var &var) {
+    if(type == var.type)
+        *this = Var(holder >= var.holder);
+    else
+        throw std::runtime_error("");
+}
+
+void Var::smallerOrEqual(const Var &var) {
+    if(type == var.type)
+        *this = Var(holder <= var.holder);
+    else
+        throw std::runtime_error("");
+}

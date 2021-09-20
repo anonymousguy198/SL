@@ -43,6 +43,26 @@ Runner::Runner(CodeGenerator c) : varHolder({}), code(std::move(c)) {
                 getNextNameOrString(word2);
                 varHolder[word].minus(varHolder[word2]);
                 break;
+            case GREATER:
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
+                varHolder[word].greater(varHolder[word2]);
+                break;
+            case SMALLER:
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
+                varHolder[word].smaller(varHolder[word2]);
+                break;
+            case GREATER_OR_EQUAL:
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
+                varHolder[word].greaterOrEqual(varHolder[word2]);
+                break;
+            case SMALLER_OR_EQUAL:
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
+                varHolder[word].smallerOrEqual(varHolder[word2]);
+                break;
             case EQUAL:
                 getNextNameOrString(word);
                 getNextNameOrString(word2);
@@ -83,9 +103,9 @@ Runner::Runner(CodeGenerator c) : varHolder({}), code(std::move(c)) {
             case PRINT:
                 getNextNameOrString(word);
                 varHolder[word].print();
-                break;
+                break;/*
             default:
-                throw std::runtime_error("Runner::Runner");
+                throw std::runtime_error("Runner::Runner");*/
         }
     }
 }
