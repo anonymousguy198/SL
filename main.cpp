@@ -1,27 +1,10 @@
 #include "SL/VM/Runner/Runner.h"
 #include <chrono>
-//#include <fstream>
-#include <sstream>
-
-extern std::ostringstream ss;
 
 using namespace std;
 
 int main(/*int argc,char* argv[]*/) {
-    //std::string codeString{};
-    /*
-    std::ifstream file(argv[1]);
-    if(!file.is_open()){
-        cerr << "File can't be open" << endl;
-        exit(-1);
-    }
-    std::string line;
-    while(getline(file,line)){
-        codeString += '\n' + line;
-    }
-    cout << codeString << endl;*/
-
-    string codeString = "print 'Hello \n World!';";
+    string codeString = "print 'Hello \n'+' World!';";
 
     double total = 0;
     auto start = chrono::high_resolution_clock::now();
@@ -44,7 +27,6 @@ int main(/*int argc,char* argv[]*/) {
     auto d = SL::Runner{c};
     diff = chrono::high_resolution_clock::now()-start;
     total += chrono::duration<double,milli>(diff).count();
-    cout << ss.str();
     cout << "\n------------Program End------------" << endl;
     cout << "Runner: " << chrono::duration<double,milli>(diff).count() << "ms" << endl;
     cout << "Total: " << total << "ms" << endl;

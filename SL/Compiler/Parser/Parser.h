@@ -10,27 +10,6 @@
 #include <map>
 
 namespace SL {
-    const std::vector<std::vector<Node>> orders{
-            {
-                    Node{"(",Node::BLOCK,Node::OP_BETWEEN}
-            },{
-                    Node{"+",Node::OPERATOR,Node::OP_RIGHT},
-                    Node{"-",Node::OPERATOR,Node::OP_RIGHT}
-            },{
-                    Node{"*",Node::OPERATOR,Node::OP_BOTH},
-                    Node{"/",Node::OPERATOR,Node::OP_BOTH}
-            },{
-                    Node{"+",Node::OPERATOR,Node::OP_BOTH},
-                    Node{"-",Node::OPERATOR,Node::OP_BOTH}
-            },{
-                    Node{"==",Node::OPERATOR,Node::OP_BOTH},
-                    Node{"!=",Node::OPERATOR,Node::OP_BOTH}
-            },{
-                    Node{"=",Node::OPERATOR,Node::OP_BOTH}
-            },{
-                    Node{"print",Node::KEYWORD,Node::OP_RIGHT}
-            }
-    };
     class Parser {
         friend class CodeGenerator;
     private:

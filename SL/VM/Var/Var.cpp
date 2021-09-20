@@ -85,19 +85,19 @@ void Var::move(const Var &var) {
     type = var.type;
 }
 
-#include <sstream>
-extern std::ostringstream ss{};
+//#include <sstream>
+//extern std::ostringstream ss{};
 
 void Var::print() {
     switch (type) {
         case STRING:
-            ss << std::get<String>(holder);
+            std::cout << std::get<String>(holder);
             break;
         case NUMBER:
-            ss << std::get<Number>(holder);
+            std::cout << std::get<Number>(holder);
             break;
         case BOOL:
-            ss << (std::get<Bool>(holder)? "true" : "false");
+            std::cout << (std::get<Bool>(holder)? "true" : "false");
             break;
         default:
             throw std::runtime_error("Var::print");

@@ -6,26 +6,29 @@
 
 using namespace SL;
 
-Parser::Parser(Lexer lexer) {
-    /*{
-        auto &lexed = lexer.holder;
-        std::vector<Node> line{};
-
-        for (auto it = lexed.begin(), end = lexed.end(); it < end; ++it) {
-            if (it->token == Node::SYMBOL) {
-                if (it->str == ";") {
-                    this->primaryHolder.push_back(line);
-                    line.clear();
-                    continue;
-                }
-            }
-            line.push_back(*it);
+const std::vector<std::vector<Node>> orders{
+        {
+                Node{"(",Node::BLOCK,Node::OP_BETWEEN}
+        },{
+                Node{"+",Node::OPERATOR,Node::OP_RIGHT},
+                Node{"-",Node::OPERATOR,Node::OP_RIGHT}
+        },{
+                Node{"*",Node::OPERATOR,Node::OP_BOTH},
+                Node{"/",Node::OPERATOR,Node::OP_BOTH}
+        },{
+                Node{"+",Node::OPERATOR,Node::OP_BOTH},
+                Node{"-",Node::OPERATOR,Node::OP_BOTH}
+        },{
+                Node{"==",Node::OPERATOR,Node::OP_BOTH},
+                Node{"!=",Node::OPERATOR,Node::OP_BOTH}
+        },{
+                Node{"=",Node::OPERATOR,Node::OP_BOTH}
+        },{
+                Node{"print",Node::KEYWORD,Node::OP_RIGHT}
         }
-        lexer.clear();
-        if (!line.empty())
-            throw std::runtime_error("Parser::Parser");
-    }*/
+};
 
+Parser::Parser(Lexer lexer) {
     for(auto& line : lexer.holder) {
         parseLine(line);
         holder.push_back(line[0]);
@@ -163,7 +166,7 @@ bool Parser::isOperand(const Node &node) {
 
 std::vector<Node>::const_iterator Parser::isInBy_string_token(const std::vector<Node> &vec, const std::vector<Node>::const_iterator &it) {
     for(auto temp = vec.cbegin(), end = vec.cend();temp < end;++temp)
-        if(temp->str == it->str && temp->token == it->token)
+        if(temp->token == it->token && temp->str == it->str)
             return temp;
 
     return vec.cend();
