@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(/*int argc,char* argv[]*/) {
-    string codeString = "print 'Hello \n'+' World!';";
+    string codeString = "print 10*200/((3*3)-9);";
 
     double total = 0;
     auto start = chrono::high_resolution_clock::now();

@@ -104,8 +104,8 @@ void CodeGenerator::generateByteCode(Node &node, Command command) {
                     deleteLastHelper();
                 }
             }else{
-                generateByteCode(node.operands[1]);
                 generateByteCode(node.operands[0]);
+                generateByteCode(node.operands[1]);
                 holder += command;
                 setHelperName(lastHelper-1);
                 setHelperName(lastHelper);
