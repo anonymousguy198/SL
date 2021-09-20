@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int main(/*int argc,char* argv[]*/) {///todo implement print command and string better
+int main(/*int argc,char* argv[]*/) {
     //std::string codeString{};
     /*
     std::ifstream file(argv[1]);
@@ -18,23 +18,31 @@ int main(/*int argc,char* argv[]*/) {///todo implement print command and string 
     }
     cout << codeString << endl;*/
 
-    //codeString = "print 3*15+2000/3";
+    string codeString = "print 3*15+2000/3;";
 
+    double total = 0;
     auto start = chrono::high_resolution_clock::now();
-    auto a = SL::Lexer{"print 1 + 2 * 3;"};
+    auto a = SL::Lexer{codeString};
     auto diff = chrono::high_resolution_clock::now()-start;
-    cout << endl << chrono::duration<double,milli>(diff).count() << "ms" << endl;
+    total += chrono::duration<double,milli>(diff).count();
+    cout << "Lexer: " << chrono::duration<double,milli>(diff).count() << "ms" << endl;
     start = chrono::high_resolution_clock::now();
     auto b = SL::Parser{a};
     diff = chrono::high_resolution_clock::now()-start;
-    cout << endl << chrono::duration<double,milli>(diff).count() << "ms" << endl;
+    total += chrono::duration<double,milli>(diff).count();
+    cout << "Parser: " << chrono::duration<double,milli>(diff).count() << "ms" << endl;
     start = chrono::high_resolution_clock::now();
     auto c = SL::CodeGenerator{b};
     diff = chrono::high_resolution_clock::now()-start;
-    cout << endl << chrono::duration<double,milli>(diff).count() << "ms" << endl;
+    total += chrono::duration<double,milli>(diff).count();
+    cout << "CodeGenerator: " << chrono::duration<double,milli>(diff).count() << "ms" << endl;
+    cout << "------------Program Begin------------" << endl;
     start = chrono::high_resolution_clock::now();
     auto d = SL::Runner{c};
     diff = chrono::high_resolution_clock::now()-start;
-    cout << endl << chrono::duration<double,milli>(diff).count() << "ms" << endl;
+    total += chrono::duration<double,milli>(diff).count();
+    cout << "\n------------Program End------------" << endl;
+    cout << "Runner: " << chrono::duration<double,milli>(diff).count() << "ms" << endl;
+    cout << "Total: " << total << "ms" << endl;
     return 0;
 }
