@@ -12,15 +12,16 @@ namespace SL {
     class Lexer {
         friend class Parser;
     private:
-        std::vector<Node> holder;
+        std::vector<std::vector<Node>> holder;
+        std::vector<std::vector<Node>>::iterator lineIt;
     public:
         explicit Lexer(std::string);
 
         void clear();
     private:
-        void push_clear(Node &);
+        inline void push_clear(Node &);
 
-        void push_clear_ifnempty(Node &);
+        inline void push_clear_ifnempty(Node &);
     };
 }//namespace SL
 

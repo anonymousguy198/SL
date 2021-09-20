@@ -9,6 +9,8 @@ using namespace SL;
 Lexer::Lexer(std::string str) : holder({}) {
     str += " ";
     Node node;
+    holder.emplace_back();
+    lineIt = holder.begin();
     for(auto it = str.begin(),end = str.end();it < end;++it){
         auto &current = *it;
         if(node.token == Node::STRING){
@@ -64,6 +66,7 @@ Lexer::Lexer(std::string str) : holder({}) {
         //PUSH:
         node.str += current;
     }
+    holder.erase(holder.end()-1);
 }
 
 void Lexer::clear() {
@@ -76,8 +79,15 @@ void Lexer::push_clear(Node &node) {
             node.token = Node::KEYWORD;
         else if (isBoolean(node.str))
             node.token = Node::BOOL;
+    }else if(node.token == Node::SYMBOL){
+        if(node.str == ";"){
+            holder.emplace_back();
+            lineIt = holder.end()-1;
+            node.clear();
+            return;
+        }
     }
-    holder.push_back(node);
+    lineIt->push_back(node);
     node.clear();
 }
 

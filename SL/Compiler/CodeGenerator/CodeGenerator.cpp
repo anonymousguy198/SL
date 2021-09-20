@@ -18,7 +18,7 @@ const Node CodeGenerator::OP_ASSIGN = Node{"=", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::KW_PRINT = Node{"print", Node::KEYWORD, Node::OP_RIGHT};
 
 CodeGenerator::CodeGenerator(Parser parser) : codeHolder({}), lastHelper(0), SEPARATOR(' ') {
-    for(auto& node : parser.secondaryHolder){
+    for(auto& node : parser.holder){
         generateByteCode(node);
         deleteByteCodeHelpers();
     }
@@ -43,30 +43,7 @@ void CodeGenerator::generateByteCode(Node &node) {
         }else if(node == OP_NOT_EQUAL){
             generateByteCode(node,NOT_EQUAL);
         }else if(node == OP_ASSIGN){
-            std::string line;
-            if(node.operands[0].operands.empty() && node.operands[0].token == Node::ID) {
-                if (node.operands[1].operands.empty()) {
-                    line = std::to_string(MOVE) + " ";
-                    line += node.operands[0].str;
-                    line += SEPARATOR;
-                    line += node.operands[1].str;
-                    codeHolder.push_back(line);
-                    line = std::to_string(MOVE) + " ";
-                    line += getHelperName(++lastHelper);
-                    line += SEPARATOR;
-                    line += node.operands[0].str;
-                } else {
-                    generateByteCode(node.operands[1]);
-                    line = std::to_string(MOVE) + " ";
-                    line += node.operands[0].str;
-                    line += SEPARATOR;
-                    line += getHelperName(lastHelper);
-                    //no need to delete helper
-                }
-            }else{
-                throw std::runtime_error("CodeGenerator::generateByteCode");
-            }
-            codeHolder.push_back(line);
+            generateMoveByteCode(node);
         }
     }
     else if(node.token == Node::KEYWORD){
@@ -77,7 +54,7 @@ void CodeGenerator::generateByteCode(Node &node) {
 }
 
 std::string CodeGenerator::getHelperName(int name) {
-    return "$"+ std::to_string(name);
+    return std::to_string(name);
 }
 
 void CodeGenerator::generateByteCode(Node &node, Command command) {
@@ -86,75 +63,61 @@ void CodeGenerator::generateByteCode(Node &node, Command command) {
         case Node::OP_LEFT:
         case Node::OP_RIGHT:
             if(node.operands[0].operands.empty()){
-                line = std::to_string(MOVE)+" ";
-                line += getHelperName(++lastHelper);
-                line += SEPARATOR;
-                line += node.operands[0].str;
-                codeHolder.push_back(line);
-                line = std::to_string(command)+" ";
+                createHelperTo(node.operands[0]);
+                line = SEPARATOR+command;
+                line += " ";
                 line += getHelperName(lastHelper);
             }else{
                 generateByteCode(node.operands[0]);
-                line = std::to_string(command)+" ";
+                line = SEPARATOR+command;
+                line += " ";
                 line += getHelperName(lastHelper);
             }
             codeHolder.push_back(line);
             if(node.token == Node::KEYWORD){
-                line = std::to_string(DELETE)+" ";
-                line += getHelperName(lastHelper--);
-                codeHolder.push_back(line);
+                deleteLastHelper();
             }
             break;
         case Node::OP_BOTH://order is matter
             if(node.operands[0].operands.empty()){
                 if(node.operands[1].operands.empty()){
-                    line = std::to_string(MOVE)+" ";
-                    line += getHelperName(++lastHelper);
-                    line += SEPARATOR;
-                    line += node.operands[0].str;
-                    codeHolder.push_back(line);
-                    line = std::to_string(command)+" ";
+                    createHelperTo(node.operands[0]);
+                    line = SEPARATOR+command;
+                    line += " ";
                     line += getHelperName(lastHelper);
                     line += SEPARATOR;
                     line += node.operands[1].str;
+                    codeHolder.push_back(line);
                 }else{
+                    createHelperTo(node.operands[0]);
                     generateByteCode(node.operands[1]);
-                    line = std::to_string(MOVE)+" ";//order is matter (in operator overloading)
-                    line += getHelperName(++lastHelper);
-                    line += SEPARATOR;
-                    line += node.operands[0].str;
-                    codeHolder.push_back(line);
-                    line = std::to_string(command)+" ";
-                    line += getHelperName(lastHelper);
-                    line += SEPARATOR;
-                    line += getHelperName(lastHelper-1);
-                    codeHolder.push_back(line);
-                    line = std::to_string(MOVE)+" ";
+                    line = SEPARATOR+command;
+                    line += " ";
                     line += getHelperName(lastHelper-1);
                     line += SEPARATOR;
                     line += getHelperName(lastHelper);
                     codeHolder.push_back(line);
-                    line = std::to_string(DELETE)+" ";
-                    line += getHelperName(lastHelper--);
+                    deleteLastHelper();
                 }
             }else if(node.operands[1].operands.empty()){
                 generateByteCode(node.operands[0]);
-                line = std::to_string(command)+" ";
+                line = SEPARATOR+command;
+                line += " ";
                 line += getHelperName(lastHelper);
                 line += SEPARATOR;
                 line += node.operands[1].str;
+                codeHolder.push_back(line);
             }else{
                 generateByteCode(node.operands[1]);
                 generateByteCode(node.operands[0]);
-                line = std::to_string(command)+" ";
+                line = SEPARATOR+command;
+                line += " ";
                 line += getHelperName(lastHelper-1);
                 line += SEPARATOR;
                 line += getHelperName(lastHelper);
                 codeHolder.push_back(line);
-                line = std::to_string(DELETE)+" ";
-                line += getHelperName(lastHelper--);
+                deleteLastHelper();
             }
-            codeHolder.push_back(line);
             break;
         case Node::INVALID:
         case Node::OP_BETWEEN:
@@ -163,9 +126,90 @@ void CodeGenerator::generateByteCode(Node &node, Command command) {
     }
 }
 
+void CodeGenerator::generateMoveByteCode(Node &node) {
+    std::string line;
+    if(node.operands[0].operands.empty() && node.operands[0].token == Node::ID) {
+        if (node.operands[1].operands.empty()) {
+            switch (node.operands[0].token) {
+                case Node::STRING:
+                    line = SEPARATOR+MOVE_STRING;
+                    break;
+                case Node::NUMBER:
+                    line = SEPARATOR+MOVE_NUMBER;
+                    break;
+                case Node::BOOL:
+                    line = SEPARATOR+MOVE_BOOL;
+                    break;
+                default:
+                    throw std::runtime_error("CodeGenerator::generateByteCode");
+            }
+            line += " ";
+            line += node.operands[0].str;
+            line += SEPARATOR;
+            line += node.operands[1].str;
+            codeHolder.push_back(line);
+            line = SEPARATOR+MOVE_VAR;
+            line += " ";
+            line += getHelperName(++lastHelper);
+            line += SEPARATOR;
+            line += node.operands[0].str;
+        } else {
+            generateByteCode(node.operands[1]);
+            line = SEPARATOR+MOVE_VAR;
+            line += " ";
+            line += node.operands[0].str;
+            line += SEPARATOR;
+            line += getHelperName(lastHelper);
+            //no need to delete helper
+        }
+    }else{
+        throw std::runtime_error("CodeGenerator::generateByteCode");
+    }
+    codeHolder.push_back(line);
+}
+
+void CodeGenerator::createHelperTo(Node &node) {
+    std::string line;
+    switch(node.token){
+        case Node::ID:
+            line = SEPARATOR+MOVE_VAR;
+            break;
+        case Node::STRING:
+            line = SEPARATOR+MOVE_STRING;
+            break;
+        case Node::NUMBER:
+            line = SEPARATOR+MOVE_NUMBER;
+            break;
+        case Node::BOOL:
+            line = SEPARATOR+MOVE_BOOL;
+            break;
+        default:
+            throw std::runtime_error("CodeGenerator::createHelperTo");
+    }
+    line += " ";
+    line += getHelperName(++lastHelper);
+    line += SEPARATOR;
+    line += node.str;
+    codeHolder.push_back(line);
+}
+
+void CodeGenerator::deleteLastHelper() {
+    std::string line;
+    line = SEPARATOR+DELETE;
+    line += " ";
+    line += getHelperName(lastHelper--);
+    codeHolder.push_back(line);
+}
+
 void CodeGenerator::deleteByteCodeHelpers() {
-    std::string line = std::to_string(DELETE) + " ";
+    std::string line;
+    line = SEPARATOR+DELETE;
+    line += " ";
     while(lastHelper){
         codeHolder.push_back(line + getHelperName(lastHelper--));
     }
+}
+
+void CodeGenerator::generateByteCommand(Command command, const std::string &str1, const std::string &str2) {
+
 }

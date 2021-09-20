@@ -15,7 +15,10 @@ namespace SL {
         MINUS,
         EQUAL,
         NOT_EQUAL,
-        MOVE,
+        MOVE_NUMBER,
+        MOVE_STRING,
+        MOVE_BOOL,
+        MOVE_VAR,
         DELETE,
         PRINT
     };

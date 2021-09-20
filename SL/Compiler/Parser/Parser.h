@@ -13,8 +13,7 @@ namespace SL {
     class Parser {
         friend class CodeGenerator;
     private:
-        std::vector<std::vector<Node>> primaryHolder;
-        std::vector<Node> secondaryHolder;
+        std::vector<Node> holder;
         const std::vector<std::vector<Node>> orders{
                 {
                         Node{"(",Node::BLOCK,Node::OP_BETWEEN}
@@ -40,7 +39,7 @@ namespace SL {
         explicit Parser(Lexer);
 
     private:
-        Node parseLine(std::vector<Node>&);
+        void parseLine(std::vector<Node>&);
 
         static void setOperatorKind(const std::vector<Node>::iterator &,const std::vector<Node>::iterator &,const std::vector<Node>::iterator &);
         static bool isOperand(const Node&);

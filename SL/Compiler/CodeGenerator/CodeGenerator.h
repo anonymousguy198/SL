@@ -40,7 +40,11 @@ namespace SL {
         void generateByteCode(Node&);
         static std::string getHelperName(int);
         void generateByteCode(Node&,Command);
+        void generateMoveByteCode(Node&);
+        void createHelperTo(Node&);
+        void deleteLastHelper();
         void deleteByteCodeHelpers();
+        void generateByteCommand(Command,const std::string& = "",const std::string& = "");
     };
 }//namespace SL
 

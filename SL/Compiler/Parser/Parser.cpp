@@ -7,7 +7,7 @@
 using namespace SL;
 
 Parser::Parser(Lexer lexer) {
-    {
+    /*{
         auto &lexed = lexer.holder;
         std::vector<Node> line{};
 
@@ -24,26 +24,20 @@ Parser::Parser(Lexer lexer) {
         lexer.clear();
         if (!line.empty())
             throw std::runtime_error("Parser::Parser");
-    }
+    }*/
 
-    for(auto& line : primaryHolder) {
-        secondaryHolder.push_back(parseLine(line));
+    for(auto& line : lexer.holder) {
+        parseLine(line);
+        holder.push_back(line[0]);
     }
-    primaryHolder.clear();
+    lexer.clear();
 }
 
-Node Parser::parseLine(std::vector<Node>& line) {
-    Node result;
+void Parser::parseLine(std::vector<Node>& line) {
     auto orderIt = orders.begin();
-    if(orderIt == orders.end()){
-        throw std::runtime_error("Parser::parseLine");
-    }
-    if(line.size() == 1){
-        result = line[0];
-        return result;
-    }
-    for (auto it = line.end(),begin = line.begin(),end = it;/*in the end*/;end = line.end(),it = end){
-        for(auto temp = begin;temp != end;++temp){
+
+    for (auto it = line.end(),begin = line.begin(),end = it;line.size() > 1;end = line.end(),it = end){
+        for(auto temp = begin;temp < end;++temp){
             if(temp->operands.empty()) {
                 setOperatorKind(begin, end, temp);
                 auto founded = isInBy_string_token(*orderIt, temp);
@@ -56,7 +50,7 @@ Node Parser::parseLine(std::vector<Node>& line) {
                             break;
                         }
                     } else {
-                        it->specialToken = Node::INVALID;
+                        temp->specialToken = Node::INVALID;
                     }
                 }
             }
@@ -87,7 +81,8 @@ Node Parser::parseLine(std::vector<Node>& line) {
                             tempLine.push_back(*it);
                             tempLine.erase(tempLine.begin());
                             tempLine.erase(tempLine.end()-1);
-                            *it = parseLine(tempLine);
+                            parseLine(tempLine);
+                            *it = tempLine[0];
                             break;
                         }
                     }
@@ -132,12 +127,7 @@ Node Parser::parseLine(std::vector<Node>& line) {
             default:
                 throw std::runtime_error("Parser::parseLine");
         }
-        if(line.size() <= 1) {
-            result = Node(*it);
-            break;
-        }
     }
-    return result;
 }
 
 void Parser::setOperatorKind(const std::vector<Node>::iterator &begin,const std::vector<Node>::iterator &end,const std::vector<Node>::iterator &it) {

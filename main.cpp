@@ -1,11 +1,12 @@
 #include "SL/VM/Runner/Runner.h"
 #include <chrono>
-#include <fstream>
+//#include <fstream>
 
 using namespace std;
 
-int main(/*int argc,char* argv[]*/) {
-    std::string codeString;/*
+int main(/*int argc,char* argv[]*/) {///todo implement print command and string better
+    //std::string codeString{};
+    /*
     std::ifstream file(argv[1]);
     if(!file.is_open()){
         cerr << "File can't be open" << endl;
@@ -17,10 +18,23 @@ int main(/*int argc,char* argv[]*/) {
     }
     cout << codeString << endl;*/
 
+    //codeString = "print 3*15+2000/3";
+
     auto start = chrono::high_resolution_clock::now();
-    auto test = SL::Runner{SL::CodeGenerator{SL::Parser{SL::Lexer{codeString}}}};
-    auto end = chrono::high_resolution_clock::now();
-    auto diff = end-start;
+    auto a = SL::Lexer{"a = 1 + 2 * 3;\nprint a;"};
+    auto diff = chrono::high_resolution_clock::now()-start;
+    cout << endl << chrono::duration<double,milli>(diff).count() << "ms" << endl;
+    start = chrono::high_resolution_clock::now();
+    auto b = SL::Parser{a};
+    diff = chrono::high_resolution_clock::now()-start;
+    cout << endl << chrono::duration<double,milli>(diff).count() << "ms" << endl;
+    start = chrono::high_resolution_clock::now();
+    auto c = SL::CodeGenerator{b};
+    diff = chrono::high_resolution_clock::now()-start;
+    cout << endl << chrono::duration<double,milli>(diff).count() << "ms" << endl;
+    start = chrono::high_resolution_clock::now();
+    auto d = SL::Runner{c};
+    diff = chrono::high_resolution_clock::now()-start;
     cout << endl << chrono::duration<double,milli>(diff).count() << "ms" << endl;
     return 0;
 }

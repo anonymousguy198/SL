@@ -15,12 +15,6 @@ namespace SL {
         std::map<std::string,Var> varHolder;
     public:
         explicit Runner(const CodeGenerator& code);
-
-    private:
-        inline static bool isName(const std::string&);
-        inline static bool isNumber(const std::string&);
-        inline static bool isString(const std::string&);
-        inline static bool isBool(const std::string &str);
     };
 }//namespace SL
 
