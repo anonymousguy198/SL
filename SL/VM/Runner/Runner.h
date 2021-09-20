@@ -13,8 +13,13 @@ namespace SL {
     class Runner {
     private:
         std::map<std::string,Var> varHolder;
+        std::string::const_iterator it,begin,end;
+        CodeGenerator code;
     public:
-        explicit Runner(const CodeGenerator& code);
+        explicit Runner(CodeGenerator);
+
+    private:
+        void getNextNameOrString(std::string&);
     };
 }//namespace SL
 

@@ -13,10 +13,8 @@ namespace SL {
     class CodeGenerator {
         friend class Runner;
     private:
-        std::vector<std::string> codeHolder;
+        std::string holder;
         int lastHelper;
-
-        const char SEPARATOR;
 
         static const Node OP_POSITIVE;
         static const Node OP_NEGATIVE;
@@ -38,13 +36,16 @@ namespace SL {
 
     private:
         void generateByteCode(Node&);
-        static std::string getHelperName(int);
         void generateByteCode(Node&,Command);
         void generateMoveByteCode(Node&);
         void createHelperTo(Node&);
         void deleteLastHelper();
-        void deleteByteCodeHelpers();
-        void generateByteCommand(Command,const std::string& = "",const std::string& = "");
+        inline void setHelperName(int);
+        inline void deleteByteCodeHelpers();
+        inline void setCodeName(const std::string &str);
+        inline void setString(const std::string &);
+        inline void setNumber(const std::string &);
+        inline void setBool(const std::string &);
     };
 }//namespace SL
 

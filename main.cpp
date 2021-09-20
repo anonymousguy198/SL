@@ -21,7 +21,7 @@ int main(/*int argc,char* argv[]*/) {///todo implement print command and string 
     //codeString = "print 3*15+2000/3";
 
     auto start = chrono::high_resolution_clock::now();
-    auto a = SL::Lexer{"a = 1 + 2 * 3;\nprint a;"};
+    auto a = SL::Lexer{"print 1 + 2 * 3;"};
     auto diff = chrono::high_resolution_clock::now()-start;
     cout << endl << chrono::duration<double,milli>(diff).count() << "ms" << endl;
     start = chrono::high_resolution_clock::now();

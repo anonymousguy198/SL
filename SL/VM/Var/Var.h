@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <variant>
+#include "../../Compiler/additional/types.h"
 
 namespace SL {
     class Var {
@@ -18,12 +19,9 @@ namespace SL {
             NUMBER,
             BOOL
         };
-        typedef std::string String;
-        typedef long double Number;
-        typedef bool Bool;
     private:
         Type type;
-        std::variant<std::string, long double, bool> holder;
+        std::variant<std::string, Number, bool> holder;
     public:
         explicit Var(const String&);
         explicit Var(const Number& = 0);

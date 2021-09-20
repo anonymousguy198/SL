@@ -14,7 +14,29 @@ Lexer::Lexer(std::string str) : holder({}) {
     for(auto it = str.begin(),end = str.end();it < end;++it){
         auto &current = *it;
         if(node.token == Node::STRING){
-            if(node.str[0] == current && *(it-1) != '\\'){
+            if(current == '\\'){
+                ++it;
+                switch (*it) {
+                    case 'n':
+                        node.str += '\n';
+                        break;
+                    case 't':
+                        node.str += '\t';
+                        break;
+                    case '\\':
+                        node.str += '\\';
+                        break;
+                    case '\"':
+                        node.str += '\"';
+                        break;
+                    case '\'':
+                        node.str += '\'';
+                        break;
+                    default:
+                        throw std::runtime_error(std::string("Unknown char \\") + *it);
+                }
+                continue;
+            }else if(node.str[0] == current){
                 node.str += current;
                 push_clear(node);
                 continue;

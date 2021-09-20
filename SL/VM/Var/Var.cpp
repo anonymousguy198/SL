@@ -6,13 +6,13 @@
 
 using namespace SL;
 
-Var::Var(const String &str) : holder(str.substr(1,str.size()-2)), type(STRING) {/*empty*/}
+Var::Var(const String &str) : type(STRING), holder(str) {/*empty*/}
 
-Var::Var(const Number &num) : holder(num), type(NUMBER) {/*empty*/}
+Var::Var(const Number &num) : type(NUMBER), holder(num) {/*empty*/}
 
-Var::Var(Bool b) : holder(b), type(BOOL) {/*empty*/}
+Var::Var(Bool b) : type(BOOL), holder(b) {/*empty*/}
 
-Var::Var(const Var &var) : holder(var.holder), type(var.type) {/*empty*/}
+Var::Var(const Var &var) = default;
 
 void Var::positive() {
     switch (type) {
@@ -91,30 +91,7 @@ void Var::print() {
             auto &str = std::get<String>(holder);
             for(auto it = str.begin(),end = str.end();it < end;++it){
                 auto& current = *it;
-                if(*it == '\\'){
-                    ++it;
-                    switch (*it) {
-                        case 'n':
-                            printf("\n");
-                            break;
-                        case 't':
-                            printf("\t");
-                            break;
-                        case '\\':
-                            printf("\\");
-                            break;
-                        case '\"':
-                            printf("\"");
-                            break;
-                        case '\'':
-                            printf("\'");
-                            break;
-                        default:
-                            throw std::runtime_error(std::string("Unknown char \\") + *it);
-                    }
-                }else {
-                    std::cout << current;
-                }
+
             }
         }
             break;

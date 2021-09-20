@@ -3,78 +3,96 @@
 //
 
 #include "Runner.h"
-#include <sstream>
+
+#include <utility>
 
 using namespace SL;
 
-Runner::Runner(const CodeGenerator& code) : varHolder({}) {
+Runner::Runner(CodeGenerator c) : varHolder({}), code(std::move(c)) {
     Command command;
-    std::string word;
-    for(const auto& line : code.codeHolder){
-        std::istringstream lineStream(line);
-        std::string word2;
-        lineStream >> word;
-        command = (Command)(word[0]-code.SEPARATOR);
+    std::string word,word2;
+    for(it = code.holder.begin(),begin = it,end = code.holder.end();it < end;){
+        command = (Command)(*it);
+        ++it;
         switch (command) {
             case POSITIVE:
-                lineStream >> word;
+                getNextNameOrString(word);
                 varHolder[word].positive();
                 break;
             case NEGATIVE:
-                lineStream >> word;
+                getNextNameOrString(word);
                 varHolder[word].negative();
                 break;
             case MULTIPLICATION:
-                lineStream >> word >> word2;
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
                 varHolder[word].multiplication(varHolder[word2]);
                 break;
             case DEVIATION:
-                lineStream >> word >> word2;
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
                 varHolder[word].deviation(varHolder[word2]);
                 break;
             case PLUS:
-                lineStream >> word >> word2;
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
                 varHolder[word].plus(varHolder[word2]);
                 break;
             case MINUS:
-                lineStream >> word >> word2;
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
                 varHolder[word].minus(varHolder[word2]);
                 break;
             case EQUAL:
-                lineStream >> word >> word2;
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
                 varHolder[word].equal(varHolder[word2]);
                 break;
             case NOT_EQUAL:
-                lineStream >> word >> word2;
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
                 varHolder[word].notEqual(varHolder[word2]);
                 break;
-            case MOVE_NUMBER:
-                lineStream >> word >> word2;
-                varHolder[word].move(Var(std::stold(word2)));
+            case MOVE_NUMBER: {
+                getNextNameOrString(word);
+                word2 = code.holder.substr(it - begin, sizeof(Number));
+                it += sizeof(Number);
+                auto num = reinterpret_cast<const Number *>(word2.c_str())[0];
+                varHolder[word].move(Var(num));
+            }
                 break;
             case MOVE_STRING:
-                lineStream >> word;
-                getline(lineStream,word2);
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
                 varHolder[word].move(Var(word2));
                 break;
             case MOVE_BOOL:
-                lineStream >> word >> word2;
-                varHolder[word].move(Var(word2 == "true"));
+                getNextNameOrString(word);
+                varHolder[word].move(Var(*it == 1));
+                ++it;
                 break;
             case MOVE_VAR:
-                lineStream >> word >> word2;
+                getNextNameOrString(word);
+                getNextNameOrString(word2);
                 varHolder[word].move(varHolder[word2]);
                 break;
             case DELETE:
-                lineStream >> word;
+                getNextNameOrString(word);
                 varHolder.erase(word);
                 break;
             case PRINT:
-                lineStream >> word;
+                getNextNameOrString(word);
                 varHolder[word].print();
                 break;
             default:
                 throw std::runtime_error("Runner::Runner");
         }
     }
+}
+
+void Runner::getNextNameOrString(std::string &str) {
+    auto size = *it;
+    ++it;
+    str = code.holder.substr(it-begin,size);
+    it += size;
 }

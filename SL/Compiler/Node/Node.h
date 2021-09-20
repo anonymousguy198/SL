@@ -7,6 +7,7 @@
 
 
 #include "../additional/functions.h"
+#include "../additional/types.h"
 #include <vector>
 
 namespace SL {
