@@ -23,6 +23,18 @@ Lexer::Lexer(std::string str) : holder({}) {
                     case 't':
                         node.str += '\t';
                         break;
+                    case 'v':
+                        node.str += '\v';
+                        break;
+                    case 'b':
+                        node.str += '\b';
+                        break;
+                    case 'r':
+                        node.str += '\r';
+                        break;
+                    case 'a':
+                        node.str += '\a';
+                        break;
                     case '\\':
                         node.str += '\\';
                         break;
@@ -88,6 +100,8 @@ Lexer::Lexer(std::string str) : holder({}) {
         //PUSH:
         node.str += current;
     }
+    if(!lineIt->empty())
+        throw std::runtime_error("Lexer::Lexer");
     holder.erase(holder.end()-1);
 }
 

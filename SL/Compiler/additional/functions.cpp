@@ -35,10 +35,11 @@ namespace SL{
         return c == ';';
     }
     extern bool isOperator(char c){
-        return c == '+' || c == '-' || c == '/' || c == '*' || c == '=' || c == '!' || c == '>' || c == '<';
+        return  c == '+' || c == '-' || c == '/' || c == '*' || c == '=' || c == '!' || c == '>' || c == '<' || c == '|'||
+                c == '&';
     }
     extern bool isOperator(const std::string &str){
-        static std::string operators[] = {"+","-","/","*","=","==","!=",">","<",">=","<="};
+        static std::string operators[] = {"+","-","/","*","=","==","!=",">","<",">=","<=","&&","||","!"};
         for(const auto &item : operators)
             if(str == item)
                 return true;

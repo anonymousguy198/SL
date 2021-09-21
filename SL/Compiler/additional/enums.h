@@ -7,7 +7,7 @@
 
 namespace SL {
     enum Command {
-        POSITIVE = 1,
+        POSITIVE = 0,
         NEGATIVE,
         MULTIPLICATION,
         DEVIATION,
@@ -19,6 +19,8 @@ namespace SL {
         SMALLER_OR_EQUAL,
         EQUAL,
         NOT_EQUAL,
+        LOGICAL_AND,
+        LOGICAL_OR,
         MOVE_NUMBER,
         MOVE_STRING,
         MOVE_BOOL,

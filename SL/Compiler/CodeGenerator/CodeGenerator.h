@@ -33,6 +33,10 @@ namespace SL {
         static const Node OP_EQUAL;
         static const Node OP_NOT_EQUAL;
 
+        static const Node OP_LOGICAL_AND;
+
+        static const Node OP_LOGICAL_OR;
+
         static const Node OP_ASSIGN;
 
         static const Node KW_PRINT;
