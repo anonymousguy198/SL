@@ -49,6 +49,34 @@ namespace SL {
         bool operator<(const Node&) const;
         bool operator>=(const Node&) const;
         bool operator<=(const Node&) const;
+
+        static const Node BK_PARENTHESIS;
+
+        static const Node OP_POSITIVE;
+        static const Node OP_NEGATIVE;
+        static const Node OP_LOGICAL_NOT;
+
+        static const Node OP_MULTIPLICATION;
+        static const Node OP_DEVIATION;
+
+        static const Node OP_PLUS;
+        static const Node OP_MINUS;
+
+        static const Node OP_GREATER;
+        static const Node OP_SMALLER;
+        static const Node OP_GREATER_OR_EQUAL;
+        static const Node OP_SMALLER_OR_EQUAL;
+
+        static const Node OP_EQUAL;
+        static const Node OP_NOT_EQUAL;
+
+        static const Node OP_LOGICAL_AND;
+
+        static const Node OP_LOGICAL_OR;
+
+        static const Node OP_ASSIGN;
+
+        static const Node KW_PRINT;
     };
 }//namespace SL
 

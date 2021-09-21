@@ -9,7 +9,7 @@ void run(const string&);
 int main(int argc,char* argv[]) {
     string codeString =
 R"(
-print 1 == 1 && 2 == 2;
+print 1010011010101010100010101010;
 )";
     /*if(argc < 2){
         cout << "ERR: no input" << endl;

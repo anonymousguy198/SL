@@ -31,6 +31,7 @@ namespace SL {
 
         void positive();
         void negative();
+        void logicalNot();
 
         void multiplication(const Var&);
         void deviation(const Var&);

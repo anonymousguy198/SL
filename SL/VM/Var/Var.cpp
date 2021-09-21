@@ -34,6 +34,16 @@ void Var::negative() {
     }
 }
 
+void Var::logicalNot() {
+    switch (type) {
+        case BOOL:
+            holder = !std::get<Bool>(holder);
+            break;
+        default:
+            throw std::runtime_error("Var::logicalNot");
+    }
+}
+
 void Var::multiplication(const Var &var) {
     if(type == var.type && type == NUMBER){
         std::get<Number>(holder) *= std::get<Number>(var.holder);

@@ -9,6 +9,7 @@ namespace SL {
     enum Command {
         POSITIVE = 0,
         NEGATIVE,
+        LOGICAL_NOT,
         MULTIPLICATION,
         DEVIATION,
         PLUS,

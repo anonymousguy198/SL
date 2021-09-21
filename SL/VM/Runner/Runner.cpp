@@ -23,6 +23,10 @@ Runner::Runner(CodeGenerator c) : varHolder({}), code(std::move(c)),
                 getNextNameOrString(word1);
                 varHolder[word1].negative();
                 break;
+            case LOGICAL_NOT:
+                getNextNameOrString(word1);
+                varHolder[word1].logicalNot();
+                break;
             case MULTIPLICATION:
                 getNextNameOrString(word1);
                 getNextNameOrString(word2);

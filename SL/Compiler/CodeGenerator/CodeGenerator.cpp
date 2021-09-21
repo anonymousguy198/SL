@@ -6,23 +6,6 @@
 
 using namespace SL;
 
-const Node CodeGenerator::OP_POSITIVE = Node{"+", Node::OPERATOR, Node::OP_RIGHT};
-const Node CodeGenerator::OP_NEGATIVE = Node{"-", Node::OPERATOR, Node::OP_RIGHT};
-const Node CodeGenerator::OP_MULTIPLICATION = Node{"*", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::OP_DEVIATION = Node{"/", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::OP_PLUS = Node{"+", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::OP_GREATER = Node{">",Node::OPERATOR,Node::OP_BOTH};
-const Node CodeGenerator::OP_SMALLER = Node{"<",Node::OPERATOR,Node::OP_BOTH};
-const Node CodeGenerator::OP_GREATER_OR_EQUAL = Node{">=",Node::OPERATOR,Node::OP_BOTH};
-const Node CodeGenerator::OP_SMALLER_OR_EQUAL = Node{"<=",Node::OPERATOR,Node::OP_BOTH};
-const Node CodeGenerator::OP_MINUS = Node{"-", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::OP_EQUAL = Node{"==", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::OP_NOT_EQUAL = Node{"!=", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::OP_LOGICAL_AND = Node{"&&", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::OP_LOGICAL_OR = Node{"||", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::OP_ASSIGN = Node{"=", Node::OPERATOR, Node::OP_BOTH};
-const Node CodeGenerator::KW_PRINT = Node{"print", Node::KEYWORD, Node::OP_RIGHT};
-
 CodeGenerator::CodeGenerator(Parser parser) : holder({}), lastHelper(0){
     for(auto& node : parser.holder){
         generateByteCode(node);
@@ -32,40 +15,42 @@ CodeGenerator::CodeGenerator(Parser parser) : holder({}), lastHelper(0){
 
 void CodeGenerator::generateByteCode(Node &node) {
     if(node.token == Node::OPERATOR){
-        if(node == OP_POSITIVE){
+        if(node == Node::OP_POSITIVE){
             generateByteCode(node,POSITIVE);
-        }else if(node == OP_NEGATIVE){
+        }else if(node == Node::OP_NEGATIVE){
             generateByteCode(node,NEGATIVE);
-        }else if(node == OP_MULTIPLICATION){
+        }else if(node == Node::OP_LOGICAL_NOT){
+            generateByteCode(node,LOGICAL_NOT);
+        }else if(node == Node::OP_MULTIPLICATION){
             generateByteCode(node,MULTIPLICATION);
-        }else if(node == OP_DEVIATION){
+        }else if(node == Node::OP_DEVIATION){
             generateByteCode(node,DEVIATION);
-        }else if(node == OP_PLUS){
+        }else if(node == Node::OP_PLUS){
             generateByteCode(node,PLUS);
-        }else if(node == OP_MINUS){
+        }else if(node == Node::OP_MINUS){
             generateByteCode(node,MINUS);
-        }else if(node == OP_GREATER_OR_EQUAL){
+        }else if(node == Node::OP_GREATER_OR_EQUAL){
             generateByteCode(node,GREATER_OR_EQUAL);
-        }else if(node == OP_SMALLER_OR_EQUAL){
+        }else if(node == Node::OP_SMALLER_OR_EQUAL){
             generateByteCode(node,SMALLER_OR_EQUAL);
-        }else if(node == OP_GREATER){
+        }else if(node == Node::OP_GREATER){
             generateByteCode(node,GREATER);
-        }else if(node == OP_SMALLER){
+        }else if(node == Node::OP_SMALLER){
             generateByteCode(node,SMALLER);
-        }else if(node == OP_EQUAL){
+        }else if(node == Node::OP_EQUAL){
             generateByteCode(node,EQUAL);
-        }else if(node == OP_NOT_EQUAL){
+        }else if(node == Node::OP_NOT_EQUAL){
             generateByteCode(node,NOT_EQUAL);
-        }else if(node == OP_LOGICAL_AND){
+        }else if(node == Node::OP_LOGICAL_AND){
             generateByteCode(node,LOGICAL_AND);
-        }else if(node == OP_LOGICAL_OR){
+        }else if(node == Node::OP_LOGICAL_OR){
             generateByteCode(node,LOGICAL_OR);
-        }else if(node == OP_ASSIGN){
+        }else if(node == Node::OP_ASSIGN){
             generateMoveByteCode(node);
         }
     }
     else if(node.token == Node::KEYWORD){
-        if(node == KW_PRINT) {
+        if(node == Node::KW_PRINT) {
             generateByteCode(node,PRINT);
         }
     }
