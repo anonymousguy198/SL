@@ -18,6 +18,8 @@ const Node CodeGenerator::OP_SMALLER_OR_EQUAL = Node{"<=",Node::OPERATOR,Node::O
 const Node CodeGenerator::OP_MINUS = Node{"-", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_EQUAL = Node{"==", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_NOT_EQUAL = Node{"!=", Node::OPERATOR, Node::OP_BOTH};
+const Node CodeGenerator::OP_LOGICAL_AND = Node{"&&", Node::OPERATOR, Node::OP_BOTH};
+const Node CodeGenerator::OP_LOGICAL_OR = Node{"||", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::OP_ASSIGN = Node{"=", Node::OPERATOR, Node::OP_BOTH};
 const Node CodeGenerator::KW_PRINT = Node{"print", Node::KEYWORD, Node::OP_RIGHT};
 
@@ -54,6 +56,10 @@ void CodeGenerator::generateByteCode(Node &node) {
             generateByteCode(node,EQUAL);
         }else if(node == OP_NOT_EQUAL){
             generateByteCode(node,NOT_EQUAL);
+        }else if(node == OP_LOGICAL_AND){
+            generateByteCode(node,LOGICAL_AND);
+        }else if(node == OP_LOGICAL_OR){
+            generateByteCode(node,LOGICAL_OR);
         }else if(node == OP_ASSIGN){
             generateMoveByteCode(node);
         }

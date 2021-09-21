@@ -38,7 +38,7 @@ void Var::multiplication(const Var &var) {
     if(type == var.type && type == NUMBER){
         std::get<Number>(holder) *= std::get<Number>(var.holder);
     }else{
-        throw std::runtime_error("Var::");
+        throw std::runtime_error("Var::multiplication");
     }
 }
 
@@ -46,7 +46,7 @@ void Var::deviation(const Var &var) {
     if(type == var.type && type == NUMBER){
         std::get<Number>(holder) /= std::get<Number>(var.holder);
     }else{
-        throw std::runtime_error("Var::");
+        throw std::runtime_error("Var::deviation");
     }
 }
 
@@ -60,7 +60,7 @@ void Var::plus(const Var &var) {
             goto THROW;
         }
     }else{
-        THROW:throw std::runtime_error("Var::");
+        THROW:throw std::runtime_error("Var::plus");
     }
 }
 
@@ -68,8 +68,36 @@ void Var::minus(const Var &var) {
     if(type == var.type && type == NUMBER){
         std::get<Number>(holder) -= std::get<Number>(var.holder);
     }else{
-        throw std::runtime_error("Var::");
+        throw std::runtime_error("Var::minus");
     }
+}
+
+void Var::greater(const Var &var) {
+    if(type == var.type)
+        *this = Var(holder > var.holder);
+    else
+        throw std::runtime_error("Var::greater");
+}
+
+void Var::smaller(const Var &var) {
+    if(type == var.type)
+        *this = Var(holder < var.holder);
+    else
+        throw std::runtime_error("Var::smaller");
+}
+
+void Var::greaterOrEqual(const Var &var) {
+    if(type == var.type)
+        *this = Var(holder >= var.holder);
+    else
+        throw std::runtime_error("Var::greaterOrEqual");
+}
+
+void Var::smallerOrEqual(const Var &var) {
+    if(type == var.type)
+        *this = Var(holder <= var.holder);
+    else
+        throw std::runtime_error("Var::smallerOrEqual");
 }
 
 void Var::equal(const Var &var) {
@@ -80,13 +108,24 @@ void Var::notEqual(const Var &var) {
     *this = Var(type != var.type || holder != var.holder);
 }
 
+void Var::logicalAnd(const Var &var) {
+    if(type == var.type && type == BOOL)
+        *this = Var(std::get<Bool>(holder) && std::get<Bool>(var.holder));
+    else
+        throw std::runtime_error("Var::logicalAnd");
+}
+
+void Var::logicalOr(const Var &var) {
+    if(type == var.type && type == BOOL)
+        *this = Var(std::get<Bool>(holder) || std::get<Bool>(var.holder));
+    else
+        throw std::runtime_error("Var::logicalOr");
+}
+
 void Var::move(const Var &var) {
     holder = var.holder;
     type = var.type;
 }
-
-//#include <sstream>
-//extern std::ostringstream ss{};
 
 void Var::print() {
     switch (type) {
@@ -102,32 +141,4 @@ void Var::print() {
         default:
             throw std::runtime_error("Var::print");
     }
-}
-
-void Var::greater(const Var &var) {
-    if(type == var.type)
-        *this = Var(holder > var.holder);
-    else
-        throw std::runtime_error("");
-}
-
-void Var::smaller(const Var &var) {
-    if(type == var.type)
-        *this = Var(holder < var.holder);
-    else
-        throw std::runtime_error("");
-}
-
-void Var::greaterOrEqual(const Var &var) {
-    if(type == var.type)
-        *this = Var(holder >= var.holder);
-    else
-        throw std::runtime_error("");
-}
-
-void Var::smallerOrEqual(const Var &var) {
-    if(type == var.type)
-        *this = Var(holder <= var.holder);
-    else
-        throw std::runtime_error("");
 }

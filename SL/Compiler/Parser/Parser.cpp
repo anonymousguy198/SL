@@ -6,7 +6,7 @@
 
 using namespace SL;
 
-const std::vector<std::vector<Node>> orders{
+const std::vector<std::vector<Node>> Parser::orders{
         {
                 Node{"(",Node::BLOCK,Node::OP_BETWEEN}
         },{
@@ -26,6 +26,10 @@ const std::vector<std::vector<Node>> orders{
         },{
                 Node{"==",Node::OPERATOR,Node::OP_BOTH},
                 Node{"!=",Node::OPERATOR,Node::OP_BOTH}
+        },{
+                Node{"&&",Node::OPERATOR,Node::OP_BOTH}
+        },{
+                Node{"||",Node::OPERATOR,Node::OP_BOTH}
         },{
                 Node{"=",Node::OPERATOR,Node::OP_BOTH}
         },{

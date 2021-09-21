@@ -46,6 +46,9 @@ namespace SL {
         void equal(const Var&);
         void notEqual(const Var&);
 
+        void logicalAnd(const Var&);
+        void logicalOr(const Var&);
+
         void move(const Var&);
 
         void print();
