@@ -1,6 +1,7 @@
 #include "SL/VM/Runner/Runner.h"
 #include <chrono>
 #include <fstream>
+#include <cstring>
 
 using namespace std;
 
@@ -15,14 +16,24 @@ int main(int argc,char* argv[]) {
         cout << "ERR: no input" << endl;
         return 1;
     }
-    ifstream file{argv[1]};
-    if(!file.is_open()){
-        cout << "ERR: cannot open the file" << endl;
-        return 1;
-    }
-    std::string line;
-    while(getline(file,line)){
-        codeString += line + '\n';
+
+    if (argc >= 2) {
+        if (strcmp(argv[1],"-e") == 0){
+            codeString = (string) argv[2];
+            cout << codeString << endl;
+        }
+        else {
+            ifstream file{argv[1]};
+            if(!file.is_open()){
+                cout << "ERR: cannot open the file" << endl;
+                return 1;
+            }
+    
+            std::string line;
+            while(getline(file,line)){
+                codeString += line + '\n';
+            }
+        }
     }
     run(codeString);
     return 0;
