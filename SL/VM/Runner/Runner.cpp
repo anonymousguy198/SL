@@ -3,7 +3,6 @@
 //
 
 #include "Runner.h"
-#include <utility>
 
 using namespace SL;
 
@@ -22,6 +21,10 @@ Runner::Runner(CodeGenerator c) : varHolder({}), code(std::move(c)),
             case NEGATIVE:
                 getNextNameOrString(word1);
                 varHolder[word1].negative();
+                break;
+            case LOGICAL_NOT:
+                getNextNameOrString(word1);
+                varHolder[word1].logicalNot();
                 break;
             case MULTIPLICATION:
                 getNextNameOrString(word1);
@@ -110,9 +113,28 @@ Runner::Runner(CodeGenerator c) : varHolder({}), code(std::move(c)),
                 getNextNameOrString(word1);
                 varHolder.erase(word1);
                 break;
-            case PRINT:
-                getNextNameOrString(word1);
-                varHolder[word1].print();
+            case NATIVE_CALL: {
+                getNextNameOrString(word1);//returned value
+                getNextNameOrString(word2);//function name
+                int argumentsNumber = (unsigned char)*it;
+                ++it;
+                std::vector<std::string> args;
+                std::string temp;
+                while(argumentsNumber){
+                    getNextNameOrString(temp);
+                    args.push_back(temp);
+                    --argumentsNumber;
+                }
+                if(word2 == "print"){
+                    print(word1,args);
+                }else if(word2 == "stringInput"){
+                    stringInput(word1,args);
+                }else if(word2 == "numberInput"){
+                    numberInput(word1,args);
+                }else if(word2 == "booleanInput"){
+                    booleanInput(word1,args);
+                }
+            }
                 break;
             default:
                 throw std::runtime_error("Runner::Runner");
@@ -125,4 +147,39 @@ void Runner::getNextNameOrString(std::string &str) {
     ++it;
     str = code.holder.substr(it-begin,size);
     it += size;
+}
+
+void Runner::print(const std::string &returnVar,const std::vector<std::string> &args){
+    for(const auto& var : args){
+        varHolder[var].print();
+    }
+    //no returnVar
+}
+
+void Runner::stringInput(const std::string &returnVar,const std::vector<std::string> &args) {
+    std::string temp;
+    *Var::input >> temp;
+    varHolder[returnVar] = Var(temp);
+}
+
+void Runner::numberInput(const std::string &returnVar,const std::vector<std::string> &args) {
+    Number temp;
+    *Var::input >> temp;
+    if(std::cin.fail()){
+        throw std::runtime_error("Runner::numberInput");
+    }
+    varHolder[returnVar] = Var(temp);
+}
+
+void Runner::booleanInput(const std::string &returnVar,const std::vector<std::string> &args) {
+    std::string temp;
+    *Var::input >> temp;
+    if(temp == "true"){
+        varHolder[returnVar] = Var(true);
+    }else if(temp == "false"){
+        varHolder[returnVar] = Var(false);
+    }else{
+        throw std::runtime_error("Runner::booleanInput");
+    }
+
 }

@@ -9,6 +9,7 @@ namespace SL {
     enum Command {
         POSITIVE = 0,
         NEGATIVE,
+        LOGICAL_NOT,
         MULTIPLICATION,
         DEVIATION,
         PLUS,
@@ -26,7 +27,7 @@ namespace SL {
         MOVE_BOOL,
         MOVE_VAR,
         DELETE,
-        PRINT
+        NATIVE_CALL
     };
 }//namespace SL
 

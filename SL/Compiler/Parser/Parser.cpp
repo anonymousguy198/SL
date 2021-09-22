@@ -8,32 +8,33 @@ using namespace SL;
 
 const std::vector<std::vector<Node>> Parser::orders{
         {
-                Node{"(",Node::BLOCK,Node::OP_BETWEEN}
+                Node::BK_PARENTHESIS
         },{
-                Node{"+",Node::OPERATOR,Node::OP_RIGHT},
-                Node{"-",Node::OPERATOR,Node::OP_RIGHT}
+                Node::OP_POSITIVE,
+                Node::OP_NEGATIVE,
+                Node::OP_LOGICAL_NOT
         },{
-                Node{"*",Node::OPERATOR,Node::OP_BOTH},
-                Node{"/",Node::OPERATOR,Node::OP_BOTH}
+                Node::OP_MULTIPLICATION,
+                Node::OP_DEVIATION
         },{
-                Node{"+",Node::OPERATOR,Node::OP_BOTH},
-                Node{"-",Node::OPERATOR,Node::OP_BOTH}
+                Node::OP_PLUS,
+                Node::OP_MINUS
         },{
-                Node{">",Node::OPERATOR,Node::OP_BOTH},
-                Node{"<",Node::OPERATOR,Node::OP_BOTH},
-                Node{">=",Node::OPERATOR,Node::OP_BOTH},
-                Node{"<=",Node::OPERATOR,Node::OP_BOTH}
+                Node::OP_GREATER,
+                Node::OP_SMALLER,
+                Node::OP_GREATER_OR_EQUAL,
+                Node::OP_SMALLER_OR_EQUAL,
         },{
-                Node{"==",Node::OPERATOR,Node::OP_BOTH},
-                Node{"!=",Node::OPERATOR,Node::OP_BOTH}
+                Node::OP_EQUAL,
+                Node::OP_NOT_EQUAL
         },{
-                Node{"&&",Node::OPERATOR,Node::OP_BOTH}
+                Node::OP_LOGICAL_AND
         },{
-                Node{"||",Node::OPERATOR,Node::OP_BOTH}
+                Node::OP_LOGICAL_OR
         },{
-                Node{"=",Node::OPERATOR,Node::OP_BOTH}
+                Node::OP_ASSIGN
         },{
-                Node{"print",Node::KEYWORD,Node::OP_RIGHT}
+                Node::OP_COMMA
         }
 };
 
@@ -75,36 +76,69 @@ void Parser::parseLine(std::vector<Node>& line) {
             continue;
         }
         switch (it->token) {
-            case Node::BLOCK: {
-                std::string close;
+            case Node::BLOCK:
+                if(isOperand(*(it-1))) {
+                    int in = 1;
+                    ++it;
+                    std::vector<Node> tempLine;
+                    while (true) {
+                        if (it->token == Node::BLOCK) {
+                            if (it->str == "(")
+                                ++in;
+                            else if (it->str == ")")
+                                --in;
+                            else
+                                throw std::runtime_error("Parser::parseLine");
 
-                int in = 0;
-                std::vector<Node> tempLine;
-                while(true) {
-                    if(it->token == Node::BLOCK){
-                        if(it->str == "(")
-                            ++in;
-                        else if(it->str == ")")
-                            --in;
-                        else
-                            throw std::runtime_error("Parser::parseLine");
-
-                        if(!in){
-                            tempLine.push_back(*it);
-                            tempLine.erase(tempLine.begin());
-                            tempLine.erase(tempLine.end()-1);
-                            parseLine(tempLine);
-                            *it = tempLine[0];
-                            break;
+                            if (!in) {
+                                if(tempLine.empty()){
+                                    it->clear();
+                                }else {
+                                    parseLine(tempLine);
+                                    *it = tempLine[0];
+                                }
+                                break;
+                            }
                         }
+                        if (it >= line.end()) {
+                            throw std::runtime_error("Parser::parseLine");
+                        }
+                        tempLine.push_back(*it);
+                        line.erase(it);
                     }
-                    if(it >= line.end()){
-                        throw std::runtime_error("Parser::parseLine");
-                    }
-                    tempLine.push_back(*it);
+
+                    --it;
+                    it->operands.push_back(*(it-1));
+                    it->operands.push_back(*(it+1));
+                    line.erase(it+1);
+                    line.erase(it-1);
+                    --it;//standard 23.1.2
+                }else{
+                    int in = 1;
                     line.erase(it);
+                    std::vector<Node> tempLine;
+                    while (true) {
+                        if (it->token == Node::BLOCK) {
+                            if (it->str == "(")
+                                ++in;
+                            else if (it->str == ")")
+                                --in;
+                            else
+                                throw std::runtime_error("Parser::parseLine");
+
+                            if (!in) {
+                                parseLine(tempLine);
+                                *it = tempLine[0];
+                                break;
+                            }
+                        }
+                        if (it >= line.end()) {
+                            throw std::runtime_error("Parser::parseLine");
+                        }
+                        tempLine.push_back(*it);
+                        line.erase(it);
+                    }
                 }
-            }
                 break;
             case Node::OPERATOR:
                 switch (it->specialToken) {

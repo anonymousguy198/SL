@@ -15,31 +15,6 @@ namespace SL {
     private:
         std::string holder;
         int lastHelper;
-
-        static const Node OP_POSITIVE;
-        static const Node OP_NEGATIVE;
-
-        static const Node OP_MULTIPLICATION;
-        static const Node OP_DEVIATION;
-
-        static const Node OP_PLUS;
-        static const Node OP_MINUS;
-
-        static const Node OP_GREATER;
-        static const Node OP_SMALLER;
-        static const Node OP_GREATER_OR_EQUAL;
-        static const Node OP_SMALLER_OR_EQUAL;
-
-        static const Node OP_EQUAL;
-        static const Node OP_NOT_EQUAL;
-
-        static const Node OP_LOGICAL_AND;
-
-        static const Node OP_LOGICAL_OR;
-
-        static const Node OP_ASSIGN;
-
-        static const Node KW_PRINT;
     public:
         explicit CodeGenerator(Parser);
 
@@ -47,14 +22,15 @@ namespace SL {
         void generateByteCode(Node&);
         void generateByteCode(Node&,Command);
         void generateMoveByteCode(Node&);
-        void createHelperTo(Node&);
-        void deleteLastHelper();
-        inline void setHelperName(int);
-        inline void deleteByteCodeHelpers();
-        inline void setCodeName(const std::string &str);
-        inline void setString(const std::string &);
-        inline void setNumber(const std::string &);
-        inline void setBool(const std::string &);
+        void createHelperTo(Node&, std::string&);
+        void deleteLastHelper(std::string&);
+        inline void setHelperName(int, std::string&);
+        inline void deleteByteCodeHelpers(std::string&);
+        inline void setCodeName(const std::string &, std::string&);
+        inline void setString(const std::string &, std::string&);
+        inline void setNumber(const std::string &, std::string&);
+        inline void setBool(const std::string &, std::string&);
+        void getArguments(Node &node, std::string&);
     };
 }//namespace SL
 

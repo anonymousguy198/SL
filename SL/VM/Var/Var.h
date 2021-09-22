@@ -14,6 +14,9 @@
 namespace SL {
     class Var {
     public:
+        static std::ostream *output;
+        static std::istream *input;
+    public:
         enum Type{
             STRING = 1,
             NUMBER,
@@ -31,6 +34,7 @@ namespace SL {
 
         void positive();
         void negative();
+        void logicalNot();
 
         void multiplication(const Var&);
         void deviation(const Var&);

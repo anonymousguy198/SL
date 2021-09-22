@@ -21,7 +21,7 @@ namespace SL{
         return isalpha(c);
     }
     extern bool isKeyword(const std::string &str){
-        static std::string keywords[] = {"print"};
+        static std::string keywords[] = {/*"print"*/};
         for(const auto &item : keywords)
             if(str == item)
                 return true;
@@ -36,10 +36,10 @@ namespace SL{
     }
     extern bool isOperator(char c){
         return  c == '+' || c == '-' || c == '/' || c == '*' || c == '=' || c == '!' || c == '>' || c == '<' || c == '|'||
-                c == '&';
+                c == '&' || c == ',';
     }
     extern bool isOperator(const std::string &str){
-        static std::string operators[] = {"+","-","/","*","=","==","!=",">","<",">=","<=","&&","||","!"};
+        static std::string operators[] = {"+","-","/","*","=","==","!=",">","<",">=","<=","&&","||","!",","};
         for(const auto &item : operators)
             if(str == item)
                 return true;
