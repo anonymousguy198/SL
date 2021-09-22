@@ -13,7 +13,7 @@ namespace SL {
         friend class Parser;
     private:
         std::vector<std::vector<Node>> holder;
-        std::vector<std::vector<Node>>::iterator lineIt;
+        std::vector<Node> primaryHolder;
     public:
         explicit Lexer(std::string);
 

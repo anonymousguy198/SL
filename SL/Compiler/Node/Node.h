@@ -50,6 +50,8 @@ namespace SL {
         bool operator>=(const Node&) const;
         bool operator<=(const Node&) const;
 
+        bool isEqualByTokenAndString(const Node&) const;
+
         static const Node BK_PARENTHESIS;
 
         static const Node OP_POSITIVE;
