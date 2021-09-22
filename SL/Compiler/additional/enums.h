@@ -27,7 +27,8 @@ namespace SL {
         MOVE_BOOL,
         MOVE_VAR,
         DELETE,
-        PRINT
+        PRINT,
+        NATIVE_CALL
     };
 }//namespace SL
 

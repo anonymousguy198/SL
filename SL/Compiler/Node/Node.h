@@ -77,6 +77,8 @@ namespace SL {
         static const Node OP_ASSIGN;
 
         static const Node KW_PRINT;
+
+        static const Node OP_COMMA;
     };
 }//namespace SL
 

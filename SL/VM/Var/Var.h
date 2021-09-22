@@ -14,6 +14,9 @@
 namespace SL {
     class Var {
     public:
+        static std::ostream *output;
+        static std::istream *input;
+    public:
         enum Type{
             STRING = 1,
             NUMBER,

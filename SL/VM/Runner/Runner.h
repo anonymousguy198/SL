@@ -20,6 +20,11 @@ namespace SL {
 
     private:
         void getNextNameOrString(std::string&);
+
+        void print(const std::string&,const std::vector<std::string>&);
+        void stringInput(const std::string&,const std::vector<std::string>&);
+        void numberInput(const std::string&,const std::vector<std::string>&);
+        void booleanInput(const std::string&,const std::vector<std::string>&);
     };
 }//namespace SL
 

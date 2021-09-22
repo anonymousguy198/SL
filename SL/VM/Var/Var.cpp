@@ -3,6 +3,7 @@
 //
 
 #include "Var.h"
+#include <iomanip>
 
 using namespace SL;
 
@@ -140,13 +141,13 @@ void Var::move(const Var &var) {
 void Var::print() {
     switch (type) {
         case STRING:
-            std::cout << std::get<String>(holder);
+            *output << std::get<String>(holder);
             break;
         case NUMBER:
-            std::cout << std::get<Number>(holder);
+            *output << std::get<Number>(holder);
             break;
         case BOOL:
-            std::cout << (std::get<Bool>(holder)? "true" : "false");
+            *output << (std::get<Bool>(holder)? "true" : "false");
             break;
         default:
             throw std::runtime_error("Var::print");
