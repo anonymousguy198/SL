@@ -6,11 +6,9 @@
 
 using namespace SL;
 
-Lexer::Lexer(std::string str) : holder({}) {
+Lexer::Lexer(std::string str) : holder({}),primaryHolder({}) {
     str += " ";
     Node node;
-    holder.emplace_back();
-    lineIt = holder.begin();
     for(auto it = str.begin(),end = str.end();it < end;++it){
         auto &current = *it;
         if(node.token == Node::STRING){
@@ -57,6 +55,9 @@ Lexer::Lexer(std::string str) : holder({}) {
         else if(isStringMarker(current)){
             push_clear_ifnempty(node);
             node.token = Node::STRING;
+        }else if(current == '\n'){
+            push_clear_ifnempty(node);
+            node.token = Node::SYMBOL;
         }
         else if(isSpace(current)){
             push_clear_ifnempty(node);
@@ -100,9 +101,38 @@ Lexer::Lexer(std::string str) : holder({}) {
         //PUSH:
         node.str += current;
     }
-    if(!lineIt->empty())
-        throw std::runtime_error("Lexer::Lexer");
-    holder.erase(holder.end()-1);
+    int in = 0;
+    std::vector<Node> line;
+    for(auto it = primaryHolder.begin(),begin = it,end = primaryHolder.end();it < end;++it){
+        if(it->token == Node::SYMBOL){
+            if(it->str == "\n"){
+                if(it == begin || in || ((it+1)->token == Node::SYMBOL && (it+1)->str == "\n") || (it+1)->isEqualByTokenAndString(Node::OP_COMMA) || (line.end()-1)->isEqualByTokenAndString(Node::OP_COMMA)){
+                    continue;
+                }else{
+                    if (!line.empty()) {
+                        holder.push_back(line);
+                        line.clear();
+                    }
+                }
+            }else{
+                if (it->str == ";") {
+                    if (!line.empty()) {
+                        holder.push_back(line);
+                        line.clear();
+                    }
+                }
+            }
+        }else{
+            line.push_back(*it);
+            if (it->token == Node::BLOCK) {
+                if (it->str == "(")
+                    ++in;
+                else if (it->str == ")")
+                    --in;
+            }
+        }
+    }
+    primaryHolder.clear();
 }
 
 void Lexer::clear() {
@@ -115,15 +145,8 @@ void Lexer::push_clear(Node &node) {
             node.token = Node::KEYWORD;
         else if (isBoolean(node.str))
             node.token = Node::BOOL;
-    }else if(node.token == Node::SYMBOL){
-        if(node.str == ";"){
-            holder.emplace_back();
-            lineIt = holder.end()-1;
-            node.clear();
-            return;
-        }
     }
-    lineIt->push_back(node);
+    primaryHolder.push_back(node);
     node.clear();
 }
 

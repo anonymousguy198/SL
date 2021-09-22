@@ -64,3 +64,7 @@ bool Node::operator>=(const Node &node) const {
 bool Node::operator<=(const Node &node) const {
     return !(*this > node);
 }
+
+bool Node::isEqualByTokenAndString(const Node &node) const {
+    return token == node.token && str == node.str;
+}
