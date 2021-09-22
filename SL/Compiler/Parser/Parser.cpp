@@ -34,8 +34,6 @@ const std::vector<std::vector<Node>> Parser::orders{
         },{
                 Node::OP_ASSIGN
         },{
-                Node::KW_PRINT
-        },{
                 Node::OP_COMMA
         }
 };

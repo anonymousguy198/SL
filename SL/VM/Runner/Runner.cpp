@@ -113,10 +113,6 @@ Runner::Runner(CodeGenerator c) : varHolder({}), code(std::move(c)),
                 getNextNameOrString(word1);
                 varHolder.erase(word1);
                 break;
-            case PRINT:
-                getNextNameOrString(word1);
-                varHolder[word1].print();
-                break;
             case NATIVE_CALL: {
                 getNextNameOrString(word1);//returned value
                 getNextNameOrString(word2);//function name

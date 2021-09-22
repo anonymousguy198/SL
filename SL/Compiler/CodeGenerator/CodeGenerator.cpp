@@ -55,9 +55,7 @@ void CodeGenerator::generateByteCode(Node &node) {
         }
     }
     else if(node.token == Node::KEYWORD){
-        if(node == Node::KW_PRINT) {
-            generateByteCode(node,PRINT);
-        }
+
     }
 }
 
